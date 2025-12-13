@@ -18,6 +18,9 @@ type Artist struct {
 	FirstAlbum   string   `json:"firstAlbum"`
 	Relations    string   `json:"relations"`
 }
+type Locations struct {
+	Locations []string `json:"locations"`
+}
 
 var allArtists []Artist
 
@@ -38,6 +41,28 @@ func FetchArtists() ([]Artist, error) {
 	return artists, err
 }
 
+func FetchLocation(id int) ([]string, error) {
+	relationsURL := "https://groupietrackers.herokuapp.com/api/locations/"
+	resp, err := http.Get(relationsURL + strconv.Itoa(id))
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var rel Locations
+	err = json.Unmarshal(body, &rel)
+	if err != nil {
+		return nil, err
+	}
+
+	return rel.Locations, nil
+}
+
 func handlerArtist(w http.ResponseWriter, r *http.Request) {
 	idStr := r.URL.Query().Get("id")
 	id, err := strconv.Atoi(idStr)
@@ -54,14 +79,26 @@ func handlerArtist(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	locations, err := FetchLocation(artist.ID)
+	if err != nil {
+		locations = []string{"Locations not available"}
+	}
 
-	tmpl, err := template.ParseFiles("articst.html")
+	data := struct {
+		Artist    Artist
+		Locations []string
+	}{
+		Artist:    artist,
+		Locations: locations,
+	}
+
+	tmpl, err := template.ParseFiles("artist.html")
 	if err != nil {
 		http.Error(w, "Failed to load template", http.StatusInternalServerError)
 		return
 	}
 
-	tmpl.Execute(w, artist)
+	tmpl.Execute(w, data)
 }
 
 func handlerHome(w http.ResponseWriter, r *http.Request) {

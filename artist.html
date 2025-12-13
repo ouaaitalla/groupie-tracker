@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{.Artist.Name}} - Details</title>
+    <style>
+        body { font-family: Arial; background: #f4f4f4; padding: 20px; }
+        .container { background: #fff; padding: 20px; border-radius: 5px; max-width: 600px; margin: auto; box-shadow: 0 0 10px #ccc; }
+        img { max-width: 200px; display: block; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{{.Artist.Image}}" alt="{{.Artist.Name}}">
+        <h1>{{.Artist.Name}}</h1>
+        <p><strong>ID:</strong> {{.Artist.ID}}</p>
+        <p><strong>Members:</strong> {{range .Artist.Members}}{{.}} {{end}}</p>
+        <p><strong>Creation Date:</strong> {{.Artist.CreationDate}}</p>
+        <p><strong>First Album:</strong> {{.Artist.FirstAlbum}}</p>
+        <p><strong>Relations:</strong> {{.Artist.Relations}}</p>
+        <p><strong>Locations:</strong><br>
+            {{range .Locations}}
+                {{.}}<br>
+            {{end}}
+        </p>
+        <a href="/">← Back to list</a>
+    </div>
+</body>
+</html>

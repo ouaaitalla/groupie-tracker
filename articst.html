@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{.Name}} - Details</title>
+    <style>
+        body { font-family: Arial; background: #f4f4f4; padding: 20px; }
+        .container { background: #fff; padding: 20px; border-radius: 5px; max-width: 600px; margin: auto; box-shadow: 0 0 10px #ccc; }
+        img { max-width: 200px; display: block; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{{.Image}}" alt="{{.Name}}">
+        <h1>{{.Name}}</h1>
+        <p><strong>ID:</strong> {{.ID}}</p>
+        <p><strong>Members:</strong> {{range .Members}}{{.}} {{end}}</p>
+        <p><strong>Creation Date:</strong> {{.CreationDate}}</p>
+        <p><strong>First Album:</strong> {{.FirstAlbum}}</p>
+        <p><strong>Relations:</strong> {{.Relations}}</p>
+        <a href="/">← Back to list</a>
+    </div>
+</body>
+</html>

@@ -2,40 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Artists</title>
+    <title>Artists List</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f4f4;
-            color: #333;
-            padding: 20px;
-        }
-        .artist {
-            background: #fff;
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-        }
-        .artist img {
-            max-width: 100px;
-            display: block;
-            margin-bottom: 10px;
-        }
+        body { font-family: Arial; background: #f4f4f4; padding: 20px; }
+        .grid { display: flex; flex-wrap: wrap; gap: 20px; }
+        .artist { background: #fff; border-radius: 5px; padding: 10px; width: 200px; text-align: center; box-shadow: 0 0 5px #ccc; }
+        .artist img { width: 100%; border-radius: 5px; }
+        button { margin-top: 10px; padding: 5px 10px; cursor: pointer; }
     </style>
 </head>
 <body>
-    <h1>Artists List</h1>
-    {{range .}}
-    <div class="artist">
-        <img src="{{.Image}}" alt="{{.Name}}">
-        <h2>{{.Name}}</h2>
-        <p><strong>ID:</strong> {{.ID}}</p>
-        <p><strong>Members:</strong> {{range .Members}}{{.}} {{end}}</p>
-        <p><strong>Creation Date:</strong> {{.CreationDate}}</p>
-        <p><strong>First Album:</strong> {{.FirstAlbum}}</p>
-        <p><strong>reletion :</strong> {{.Relations}}</p>
+    <h1>Artists</h1>
+    <div class="grid">
+        {{range .}}
+        <div class="artist">
+            <img src="{{.Image}}" alt="{{.Name}}">
+            <h3>{{.Name}}</h3>
+            <form action="/artist" method="get">
+                <input type="hidden" name="id" value="{{.ID}}">
+                <button type="submit">View Details</button>
+            </form>
+        </div>
+        {{end}}
     </div>
-    {{end}}
 </body>
 </html>

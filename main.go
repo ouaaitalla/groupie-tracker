@@ -9,6 +9,8 @@ import (
 
 func main() {
 	var err error
+	fs := http.FileServer(http.Dir("static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	zone.AllArtists, err = zone.FetchArtists()
 	if err != nil {
 		fmt.Println("Error fetching artists:", err)

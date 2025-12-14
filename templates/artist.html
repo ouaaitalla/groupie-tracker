@@ -2,28 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{.Artist.Name}} - Details</title>
-    <style>
+    <title>groupie-tracker</title>
+    <link rel="stylesheet" href="/static/style.css">
+<!--     <style>
         body { font-family: Arial; background: #f4f4f4; padding: 20px; }
         .container { background: #fff; padding: 20px; border-radius: 5px; max-width: 600px; margin: auto; box-shadow: 0 0 10px #ccc; }
         img { max-width: 200px; display: block; margin-bottom: 10px; }
-    </style>
+    </style> -->
 </head>
 <body>
     <div class="container">
         <img src="{{.Artist.Image}}" alt="{{.Artist.Name}}">
         <h1>{{.Artist.Name}}</h1>
-        <p><strong>ID:</strong> {{.Artist.ID}}</p>
-        <p><strong>Members:</strong> {{range .Artist.Members}}{{.}} {{end}}</p>
+        <p><strong>Members:</strong> {{range .Artist.Members}}<br>{{.}}<br> {{end}}</p>
         <p><strong>Creation Date:</strong> {{.Artist.CreationDate}}</p>
         <p><strong>First Album:</strong> {{.Artist.FirstAlbum}}</p>
-        <p><strong>Relations:</strong> {{.Artist.Relations}}</p>
+        <p><strong>Relations:</strong><br>
+            {{range $place, $dates := .Relations}}
+            {{$place}}: {{range $dates}}{{.}} {{end}}<br>
+            {{end}}
+        </p>
         <p><strong>Locations:</strong><br>
             {{range .Locations}}
                 {{.}}<br>
             {{end}}
         </p>
+        <p><strong>Date:</strong><br>
+            {{range .Dates}}
+                {{.}}<br>
+            {{end}}
+        </p>
         <a href="/">← Back to list</a>
     </div>
+        <script src="/static/script.js"></script>
 </body>
 </html>
+

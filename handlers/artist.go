@@ -13,7 +13,6 @@ type Artist struct {
 	Members      []string `json:"members"`
 	CreationDate int      `json:"creationDate"`
 	FirstAlbum   string   `json:"firstAlbum"`
-	Relations    string   `json:"relations"`
 }
 
 var AllArtists []Artist
@@ -38,13 +37,18 @@ func HandlerArtist(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		locations = []string{"Locations not available"}
 	}
-
+	dates := FetchDate(artist.ID)
+	Relation := FetchRelations(artist.ID)
 	data := struct {
 		Artist    Artist
+		Relations map[string][]string
 		Locations []string
+		Dates     []string
 	}{
 		Artist:    artist,
+		Relations: Relation,
 		Locations: locations,
+		Dates:     dates,
 	}
 
 	tmpl, err := template.ParseFiles("templates/artist.html")

@@ -30,6 +30,9 @@ func HandlerArtist(w http.ResponseWriter, r *http.Request) {
 		if a.ID == id {
 			artist = a
 			break
+		} else {
+			http.Error(w, "artist not found", http.StatusBadRequest)
+			return
 		}
 	}
 
@@ -39,6 +42,7 @@ func HandlerArtist(w http.ResponseWriter, r *http.Request) {
 	}
 	dates := FetchDate(artist.ID)
 	Relation := FetchRelations(artist.ID)
+	AllArtists[0].Name = "New Name"
 	data := struct {
 		Artist    Artist
 		Relations map[string][]string

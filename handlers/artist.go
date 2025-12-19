@@ -36,12 +36,6 @@ func HandlerArtist(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	var artist Artist
-	for _, a := range AllArtists {
-		if a.ID == id {
-			artist = a
-			break
-		}
-	}
 	found := false
 	for _, a := range AllArtists {
 		if a.ID == id {
@@ -56,13 +50,9 @@ func HandlerArtist(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	locations, err := FetchLocation(artist.ID)
-	if err != nil {
-		locations = []string{"Locations not available"}
-	}
+	locations, _ := FetchLocation(artist.ID)
 	dates := FetchDate(artist.ID)
 	Relation := FetchRelations(artist.ID)
-	AllArtists[0].Name = "New Name"
 	data := struct {
 		Artist    Artist
 		Relations map[string][]string

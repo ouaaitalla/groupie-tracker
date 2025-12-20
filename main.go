@@ -14,7 +14,8 @@ func main() {
 		fmt.Println("Error fetching artists:", err)
 		return
 	}
-
+	fs := http.FileServer(http.Dir("./static"))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	http.HandleFunc("/", zone.HandlerHome)
 	http.HandleFunc("/artist", zone.HandlerArtist)
 	http.HandleFunc("/edit-name", zone.HandlerEditName)

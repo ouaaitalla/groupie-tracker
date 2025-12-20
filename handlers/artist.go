@@ -51,8 +51,13 @@ func HandlerArtist(w http.ResponseWriter, r *http.Request) {
 	}
 
 	locations, _ := FetchLocation(artist.ID)
+	for i, loc := range locations {
+		locations[i] = FormatLocation(loc)
+	}
 	dates := FetchDate(artist.ID)
-	Relation := FetchRelations(artist.ID)
+	dates = FormatDate(dates)
+	rawRelation := FetchRelations(artist.ID)
+	Relation := FormatRelations(rawRelation)
 	data := struct {
 		Artist    Artist
 		Relations map[string][]string
@@ -64,6 +69,7 @@ func HandlerArtist(w http.ResponseWriter, r *http.Request) {
 		Locations: locations,
 		Dates:     dates,
 	}
+
 	tmpl, err := template.ParseFiles("templates/artist.html")
 	if err != nil {
 		http.Error(w, "Failed to load template", http.StatusInternalServerError)

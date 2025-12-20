@@ -1,0 +1,57 @@
+package main
+
+import (
+	"fmt"
+	"net/http"
+	"sync"
+	"time"
+
+	zone "zone/handlers"
+)
+
+func main() {
+	var err error
+	zone.AllArtists, err = zone.FetchArtists()
+	if err != nil {
+		fmt.Println("Error fetching artists:", err)
+		return
+	}
+
+	http.HandleFunc("/", zone.HandlerHome)
+	http.HandleFunc("/artist", zone.HandlerArtist)
+	http.HandleFunc("/edit-name", zone.HandlerEditName)
+
+	// تشغيل السيرفر في goroutine حتى نستطيع إرسال requests بعد قليل
+	go func() {
+		fmt.Println("Server running on http://localhost:8080")
+		http.ListenAndServe(":8080", nil)
+	}()
+
+	// انتظر ثانية واحدة حتى يتأكد السيرفر جاهز
+	time.Sleep(1 * time.Second)
+
+	// إرسال 1000 request لاختبار Data Race
+	const numRequests = 1000
+	url := "http://localhost:8080/artist"
+
+	var wg sync.WaitGroup
+	wg.Add(numRequests)
+
+	for i := 0; i < numRequests; i++ {
+		go func(i int) {
+			defer wg.Done()
+			resp, err := http.PostForm(url, map[string][]string{
+				"id": {"1"},
+			})
+			if err != nil {
+				fmt.Println("Request", i, "failed:", err)
+				return
+			}
+			resp.Body.Close()
+			fmt.Println("Request", i, "status:", resp.Status)
+		}(i)
+	}
+
+	wg.Wait()
+	fmt.Println("All requests finished")
+}

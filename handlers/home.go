@@ -7,11 +7,11 @@ import (
 
 func HandlerHome(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
-		http.Error(w, "page not found", 404)
+		HandleError(w, http.StatusNotFound, "Page not found")
 		return
 	}
 	if r.Method != http.MethodGet {
-		http.Error(w, "bad request", http.StatusBadRequest)
+		HandleError(w ,http.StatusBadRequest, "bad request")
 		return
 	}
 	tmpl, err := template.ParseFiles("templates/index.html")

@@ -19,20 +19,20 @@ var AllArtists []Artist
 
 func HandlerArtist(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
-		http.Error(w, "bad request", http.StatusBadRequest)
+		HandleError(w, http.StatusBadRequest, "bad request")
 		return
 	}
 
 	idStr := r.FormValue("id")
 
 	if idStr == "" {
-		http.Error(w, "page not found", http.StatusNotFound)
+		HandleError(w, http.StatusNotFound, "Page not found")
 		return
 	}
 
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		http.Error(w, "Invalid artist ID", http.StatusBadRequest)
+		HandleError(w, http.StatusBadRequest, "Invalid artist ID")
 		return
 	}
 	var artist Artist
@@ -46,7 +46,7 @@ func HandlerArtist(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if !found {
-		http.Error(w, "artist not found", http.StatusNotFound) // 404
+		HandleError(w, http.StatusNotFound, "artist not found")
 		return
 	}
 

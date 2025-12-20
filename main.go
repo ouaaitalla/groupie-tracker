@@ -14,12 +14,9 @@ func main() {
 		fmt.Println("Error fetching artists:", err)
 		return
 	}
-	fs := http.FileServer(http.Dir("./static"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
+	http.HandleFunc("/static/", zone.HandleStatic)
 	http.HandleFunc("/", zone.HandlerHome)
-	http.HandleFunc("/artist", zone.HandlerArtist)
-	http.HandleFunc("/edit-name", zone.HandlerEditName)
-
+	http.HandleFunc("/artist/", zone.HandlerArtist)
 	fmt.Println("Server running on http://localhost:8080")
 	http.ListenAndServe(":8080", nil)
 }

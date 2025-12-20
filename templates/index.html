@@ -13,9 +13,9 @@
             <img src="{{.Image}}" >
             <h3>{{.Name}}</h3>
             <form action="/artist" method="post">
-                <input type="hidden" name="id" value="{{.ID}}">
-                <button type="submit">View Details</button>
-            </form>
+               <a href="/artist/{{.ID}}">
+    <button type="button">View Details</button>
+</a>
         </div>
         {{end}}
     </div>

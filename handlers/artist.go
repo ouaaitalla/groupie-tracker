@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"net/http"
 	"strconv"
+	"strings"
 )
 
 type Artist struct {
@@ -18,13 +19,7 @@ type Artist struct {
 var AllArtists []Artist
 
 func HandlerArtist(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		HandleError(w, http.StatusBadRequest, "bad request")
-		return
-	}
-
-	idStr := r.FormValue("id")
-
+	idStr := strings.TrimPrefix(r.URL.Path, "/artist/")
 	if idStr == "" {
 		HandleError(w, http.StatusNotFound, "Page not found")
 		return
@@ -35,6 +30,7 @@ func HandlerArtist(w http.ResponseWriter, r *http.Request) {
 		HandleError(w, http.StatusBadRequest, "Invalid artist ID")
 		return
 	}
+
 	var artist Artist
 	found := false
 	for _, a := range AllArtists {
@@ -46,18 +42,18 @@ func HandlerArtist(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if !found {
-		HandleError(w, http.StatusNotFound, "artist not found")
+		HandleError(w, http.StatusNotFound, "Artist not found")
 		return
 	}
 
 	locations, _ := FetchLocation(artist.ID)
+	dates := FetchDate(artist.ID)
+	relations := FetchRelations(artist.ID)
+
 	for i, loc := range locations {
 		locations[i] = FormatLocation(loc)
 	}
-	dates := FetchDate(artist.ID)
-	dates = FormatDate(dates)
-	rawRelation := FetchRelations(artist.ID)
-	Relation := FormatRelations(rawRelation)
+
 	data := struct {
 		Artist    Artist
 		Relations map[string][]string
@@ -65,14 +61,14 @@ func HandlerArtist(w http.ResponseWriter, r *http.Request) {
 		Dates     []string
 	}{
 		Artist:    artist,
-		Relations: Relation,
+		Relations: relations,
 		Locations: locations,
 		Dates:     dates,
 	}
 
 	tmpl, err := template.ParseFiles("templates/artist.html")
 	if err != nil {
-		http.Error(w, "Failed to load template", http.StatusInternalServerError)
+		HandleError(w, http.StatusInternalServerError, "Failed to load template")
 		return
 	}
 

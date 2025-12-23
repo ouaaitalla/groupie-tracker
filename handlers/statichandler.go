@@ -1,6 +1,10 @@
 package zone
 
-import "net/http"
+import (
+	"net/http"
+	"os"
+	"path/filepath"
+)
 
 // HandleStatic serves CSS files and prevents direct access to /static/
 func HandleStatic(w http.ResponseWriter, r *http.Request) {
@@ -9,6 +13,12 @@ func HandleStatic(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fs := http.StripPrefix("/static/", http.FileServer(http.Dir("static")))
-	fs.ServeHTTP(w, r)
+	filePath := filepath.Join("static", r.URL.Path[len("/static/"):])
+
+	if _, err := os.Stat(filePath); err != nil {
+		HandleError(w, http.StatusNotFound, "Not Found!")
+		return
+	}
+
+	http.ServeFile(w, r, filePath)
 }

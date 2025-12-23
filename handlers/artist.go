@@ -1,6 +1,7 @@
 package zone
 
 import (
+	"bytes"
 	"html/template"
 	"net/http"
 	"strconv"
@@ -48,6 +49,7 @@ func HandlerArtist(w http.ResponseWriter, r *http.Request) {
 
 	locations, _ := FetchLocation(artist.ID)
 	dates := FetchDate(artist.ID)
+	dates = FormatDate(dates)
 	relations := FetchRelations(artist.ID)
 
 	for i, loc := range locations {
@@ -72,5 +74,11 @@ func HandlerArtist(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	tmpl.Execute(w, data)
+	var buf bytes.Buffer
+	if err := tmpl.Execute(&buf, data); err != nil {
+		HandleError(w, http.StatusInternalServerError, "Internal server error")
+		return
+	}
+
+	buf.WriteTo(w)
 }

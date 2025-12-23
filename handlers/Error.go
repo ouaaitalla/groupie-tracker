@@ -1,6 +1,7 @@
 package zone
 
 import (
+	"bytes"
 	"html/template"
 	"net/http"
 )
@@ -18,5 +19,11 @@ func HandleError(w http.ResponseWriter, status int, message string) {
 		Status:  status,
 	}
 
-	tmpl.Execute(w, data)
+	var buf bytes.Buffer
+	if err := tmpl.Execute(&buf, data); err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(status)
+	buf.WriteTo(w)
 }

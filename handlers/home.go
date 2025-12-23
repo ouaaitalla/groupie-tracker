@@ -1,6 +1,7 @@
 package zone
 
 import (
+	"bytes"
 	"html/template"
 	"net/http"
 )
@@ -11,7 +12,7 @@ func HandlerHome(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if r.Method != http.MethodGet {
-		HandleError(w ,http.StatusBadRequest, "bad request")
+		HandleError(w, http.StatusBadRequest, "bad request")
 		return
 	}
 	tmpl, err := template.ParseFiles("templates/index.html")
@@ -20,9 +21,11 @@ func HandlerHome(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = tmpl.Execute(w, AllArtists)
-	if err != nil {
-		http.Error(w, "Failed to render page", http.StatusInternalServerError)
+	var buf bytes.Buffer
+	if err := tmpl.Execute(&buf, AllArtists); err != nil {
+		HandleError(w, http.StatusInternalServerError, "Internal server error")
 		return
 	}
+
+	buf.WriteTo(w)
 }

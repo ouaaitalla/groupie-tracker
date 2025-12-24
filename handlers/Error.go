@@ -7,8 +7,6 @@ import (
 )
 
 func HandleError(w http.ResponseWriter, status int, message string) {
-	w.WriteHeader(status)
-
 	tmpl, _ := template.ParseFiles("templates/err.html")
 
 	data := struct {

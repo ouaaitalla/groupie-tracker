@@ -17,8 +17,6 @@ type Artist struct {
 	FirstAlbum   string   `json:"firstAlbum"`
 }
 
-var AllArtists []Artist
-
 func HandlerArtist(w http.ResponseWriter, r *http.Request) {
 	idStr := strings.TrimPrefix(r.URL.Path, "/artist/")
 	if idStr == "" {
@@ -32,9 +30,15 @@ func HandlerArtist(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	artists, err := FetchArtists()
+	if err != nil {
+		HandleError(w, http.StatusInternalServerError, "Failed to fetch artists")
+		return
+	}
 	var artist Artist
+
 	found := false
-	for _, a := range AllArtists {
+	for _, a := range artists {
 		if a.ID == id {
 			artist = a
 			found = true

@@ -11,18 +11,26 @@ func HandlerHome(w http.ResponseWriter, r *http.Request) {
 		HandleError(w, http.StatusNotFound, "Page not found")
 		return
 	}
+
 	if r.Method != http.MethodGet {
-		HandleError(w, http.StatusBadRequest, "bad request")
+		HandleError(w, http.StatusBadRequest, "Bad Request")
 		return
 	}
+
+	artists, err := FetchArtists()
+	if err != nil {
+		HandleError(w, http.StatusInternalServerError, "Failed to fetch artists")
+		return
+	}
+
 	tmpl, err := template.ParseFiles("templates/index.html")
 	if err != nil {
-		http.Error(w, "Failed to load template", http.StatusInternalServerError)
+		HandleError(w, http.StatusInternalServerError, "Failed to load template")
 		return
 	}
 
 	var buf bytes.Buffer
-	if err := tmpl.Execute(&buf, AllArtists); err != nil {
+	if err := tmpl.Execute(&buf, artists); err != nil {
 		HandleError(w, http.StatusInternalServerError, "Internal server error")
 		return
 	}

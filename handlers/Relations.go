@@ -12,20 +12,20 @@ type Relations struct {
 	DatesLocations map[string][]string `json:"datesLocations"`
 }
 
-func FetchRelations(id int) map[string][]string {
+func FetchRelations(id int) (map[string][]string, error) {
 	url := "https://groupietrackers.herokuapp.com/api/relation/" + strconv.Itoa(id)
 
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println("Err in get:", err)
-		return nil
+		return nil, err
 	}
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println("Err in read:", err)
-		return nil
+		return nil, err
 	}
 
 	var data Relations
@@ -33,8 +33,8 @@ func FetchRelations(id int) map[string][]string {
 	if err != nil {
 		fmt.Println("Err in json:", err)
 		fmt.Println("Body:", string(body))
-		return nil
+		return nil, err
 	}
 
-	return data.DatesLocations
+	return data.DatesLocations, nil
 }

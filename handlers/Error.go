@@ -19,7 +19,7 @@ func HandleError(w http.ResponseWriter, status int, message string) {
 
 	var buf bytes.Buffer
 	if err := tmpl.Execute(&buf, data); err != nil {
-		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		http.Error(w, "500 Internal Server Error", http.StatusInternalServerError)
 		return
 	}
 	w.WriteHeader(status)

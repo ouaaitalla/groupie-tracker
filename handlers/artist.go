@@ -32,7 +32,7 @@ func HandlerArtist(w http.ResponseWriter, r *http.Request) {
 
 	artists, err := FetchArtists()
 	if err != nil {
-		HandleError(w, http.StatusInternalServerError, "Failed to fetch artists")
+		HandleError(w, http.StatusInternalServerError, "500 Internal Server Error")
 		return
 	}
 	var artist Artist
@@ -51,13 +51,24 @@ func HandlerArtist(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	locations, _ := FetchLocation(artist.ID)
-	dates := FetchDate(artist.ID)
-	dates = FormatDate(dates)
-	relations := FetchRelations(artist.ID)
-
+	locations, err := FetchLocation(artist.ID)
+	if err != nil {
+		HandleError(w, http.StatusInternalServerError, "500 Internal Server Error")
+		return
+	}
 	for i, loc := range locations {
 		locations[i] = FormatLocation(loc)
+	}
+	dates, err := FetchDate(artist.ID)
+	if err != nil {
+		HandleError(w, http.StatusInternalServerError, "500 Internal Server Error")
+		return
+	}
+	dates = FormatDate(dates)
+	relations, err := FetchRelations(artist.ID)
+	if err != nil {
+		HandleError(w, http.StatusInternalServerError, "500 Internal Server Error")
+		return
 	}
 
 	data := struct {
@@ -74,13 +85,13 @@ func HandlerArtist(w http.ResponseWriter, r *http.Request) {
 
 	tmpl, err := template.ParseFiles("templates/artist.html")
 	if err != nil {
-		HandleError(w, http.StatusInternalServerError, "Failed to load template")
+		HandleError(w, http.StatusInternalServerError, "500 Internal Server Error")
 		return
 	}
 
 	var buf bytes.Buffer
 	if err := tmpl.Execute(&buf, data); err != nil {
-		HandleError(w, http.StatusInternalServerError, "Internal server error")
+		HandleError(w, http.StatusInternalServerError, "500 Internal Server Error")
 		return
 	}
 

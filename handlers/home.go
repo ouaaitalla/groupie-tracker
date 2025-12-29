@@ -19,19 +19,19 @@ func HandlerHome(w http.ResponseWriter, r *http.Request) {
 
 	artists, err := FetchArtists()
 	if err != nil {
-		HandleError(w, http.StatusInternalServerError, "Failed to fetch artists")
+		HandleError(w, http.StatusInternalServerError, "500 Internal Server Error")
 		return
 	}
 
 	tmpl, err := template.ParseFiles("templates/index.html")
 	if err != nil {
-		HandleError(w, http.StatusInternalServerError, "Failed to load template")
+		HandleError(w, http.StatusInternalServerError, "500 Internal Server Error")
 		return
 	}
 
 	var buf bytes.Buffer
 	if err := tmpl.Execute(&buf, artists); err != nil {
-		HandleError(w, http.StatusInternalServerError, "Internal server error")
+		HandleError(w, http.StatusInternalServerError, "500 Internal Server Error")
 		return
 	}
 

@@ -2,7 +2,6 @@ package zone
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"strconv"
@@ -30,8 +29,6 @@ func FetchDate(id int) ([]string, error) {
 	var data Dates
 	err = json.Unmarshal(body, &data)
 	if err != nil {
-		fmt.Println("JSON error:", err)
-		fmt.Println("Body:", string(body))
 		return nil, err
 	}
 

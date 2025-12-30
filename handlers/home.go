@@ -13,7 +13,7 @@ func HandlerHome(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if r.Method != http.MethodGet {
-		HandleError(w, http.StatusBadRequest, "Bad Request")
+		HandleError(w, http.StatusMethodNotAllowed, "Method Not Allowed")
 		return
 	}
 

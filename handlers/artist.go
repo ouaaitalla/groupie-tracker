@@ -19,6 +19,11 @@ type Artist struct {
 
 func HandlerArtist(w http.ResponseWriter, r *http.Request) {
 	idStr := strings.TrimPrefix(r.URL.Path, "/artist/")
+
+	if r.Method != http.MethodGet {
+		HandleError(w, http.StatusMethodNotAllowed, "Method Not Allowed")
+		return
+	}
 	if idStr == "" {
 		HandleError(w, http.StatusNotFound, "Page not found")
 		return

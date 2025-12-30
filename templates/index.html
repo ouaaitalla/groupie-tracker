@@ -12,9 +12,10 @@
         <div class="artist">
             <img src="{{.Image}}" >
             <h3>{{.Name}}</h3>
-            <a href="/artist/{{.ID}}">
-    <button type="button">View Details</button>
-</a>
+          <form action="/artist/{{.ID}}" method="get">
+    <button type="submit">View Details</button>
+</form>
+
         </div>
         {{end}}
     </div>

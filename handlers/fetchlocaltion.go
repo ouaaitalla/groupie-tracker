@@ -2,7 +2,6 @@ package zone
 
 import (
 	"encoding/json"
-	"io"
 	"net/http"
 	"strconv"
 )
@@ -19,13 +18,8 @@ func FetchLocation(id int) ([]string, error) {
 	}
 	defer resp.Body.Close()
 
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-
 	var rel Locations
-	err = json.Unmarshal(body, &rel)
+	err = json.NewDecoder(resp.Body).Decode(&rel)
 	if err != nil {
 		return nil, err
 	}

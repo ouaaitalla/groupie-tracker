@@ -3,7 +3,6 @@ package zone
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 	"strconv"
 )
@@ -22,18 +21,10 @@ func FetchRelations(id int) (map[string][]string, error) {
 	}
 	defer resp.Body.Close()
 
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		fmt.Println("Err in read:", err)
-		return nil, err
-	}
-
 	var data Relations
-	err = json.Unmarshal(body, &data)
+	err = json.NewDecoder(resp.Body).Decode(&data)
 	if err != nil {
-		fmt.Println("Err in json:", err)
-		fmt.Println("Body:", string(body))
-		return nil, err
+		return nil,err
 	}
 
 	return data.DatesLocations, nil

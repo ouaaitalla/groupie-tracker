@@ -61,9 +61,7 @@ func HandlerArtist(w http.ResponseWriter, r *http.Request) {
 		HandleError(w, http.StatusInternalServerError, "500 Internal Server Error")
 		return
 	}
-	for i, loc := range locations {
-		locations[i] = FormatLocation(loc)
-	}
+
 	dates, err := FetchDate(artist.ID)
 	if err != nil {
 		HandleError(w, http.StatusInternalServerError, "500 Internal Server Error")

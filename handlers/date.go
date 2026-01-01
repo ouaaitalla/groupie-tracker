@@ -2,7 +2,6 @@ package zone
 
 import (
 	"encoding/json"
-	"io"
 	"net/http"
 	"strconv"
 )
@@ -21,13 +20,8 @@ func FetchDate(id int) ([]string, error) {
 	}
 	defer resp.Body.Close()
 
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		return nil, err
-	}
-
 	var data Dates
-	err = json.Unmarshal(body, &data)
+	err = json.NewDecoder(resp.Body).Decode(&data)
 	if err != nil {
 		return nil, err
 	}

@@ -6,6 +6,7 @@ import (
 	"net/http"
 )
 
+// HandlerHome serves the home page with a list of artists
 func HandlerHome(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		HandleError(w, http.StatusNotFound, "Page not found")

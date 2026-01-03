@@ -5,6 +5,7 @@ import (
 	"net/http"
 )
 
+// FetchARtists retrieves the list of artists from the public API
 func FetchArtists() ([]Artist, error) {
 	resp, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
 	if err != nil {

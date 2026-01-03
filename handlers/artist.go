@@ -8,6 +8,7 @@ import (
 	"strings"
 )
 
+// Artist represents the structure of an artist
 type Artist struct {
 	ID           int      `json:"id"`
 	Image        string   `json:"image"`
@@ -17,6 +18,7 @@ type Artist struct {
 	FirstAlbum   string   `json:"firstAlbum"`
 }
 
+// HandlerArtist serves the artist detail page
 func HandlerArtist(w http.ResponseWriter, r *http.Request) {
 	idStr := strings.TrimPrefix(r.URL.Path, "/artist/")
 

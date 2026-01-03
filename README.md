@@ -60,9 +60,7 @@
 ├── main.go
 ├── README.md
 ├── static/
-│   ├── artist.css
-│   ├── error.css
-│   └── index.css
+│   └── style.css
 └── templates/
     ├── artist.html
     ├── err.html
@@ -90,5 +88,6 @@ This project is for educational purposes only.
 
 ## Authors
 
-- yzarhoun  - [GitHub](https://github.com/quadS01) - [Gitea](https://learn.zone01oujda.ma/git/yzarhoun)
+- bguitoni  - [GitHub](https://github.com/Badrone7) - [Gitea](https://learn.zone01oujda.ma/git/bguitoni)
 - halhyane  - [GitHub](https://github.com/Houssam-Alhyane) - [Gitea](https://learn.zone01oujda.ma/git/halhyane)
+- achent  - [GitHub](https://github.com/chentaymane) - [Gitea](https://learn.zone01oujda.ma/git/achent)

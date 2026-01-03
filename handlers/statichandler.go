@@ -9,7 +9,7 @@ import (
 // HandleStatic serves CSS files and prevents direct access to /static/
 func HandleStatic(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path == "/static" || r.URL.Path == "/static/" {
-		HandleError(w, http.StatusForbidden, "Access Forbidden")
+		HandleError(w, http.StatusNotFound, "Not Found!")
 		return
 	}
 	filePath := filepath.Join("static", r.URL.Path[len("/static/"):])

@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+
+	zone "zone/fetchers"
 )
-
-
 
 // HandlerArtist serves the artist detail page
 func HandlerArtist(w http.ResponseWriter, r *http.Request) {
@@ -29,12 +29,12 @@ func HandlerArtist(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	artists, err := FetchArtists()
+	artists, err := zone.FetchArtists()
 	if err != nil {
 		HandleError(w, http.StatusInternalServerError, "500 Internal Server Error")
 		return
 	}
-	var artist Artist
+	var artist zone.Artist
 
 	found := false
 	for _, a := range artists {
@@ -50,26 +50,26 @@ func HandlerArtist(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	locations, err := FetchLocation(artist.ID)
+	locations, err := zone.FetchLocation(artist.ID)
 	if err != nil {
 		HandleError(w, http.StatusInternalServerError, "500 Internal Server Error")
 		return
 	}
 
-	dates, err := FetchDate(artist.ID)
+	dates, err := zone.FetchDate(artist.ID)
 	if err != nil {
 		HandleError(w, http.StatusInternalServerError, "500 Internal Server Error")
 		return
 	}
-	dates = FormatDate(dates)
-	relations, err := FetchRelations(artist.ID)
+	dates = zone.FormatDate(dates)
+	relations, err := zone.FetchRelations(artist.ID)
 	if err != nil {
 		HandleError(w, http.StatusInternalServerError, "500 Internal Server Error")
 		return
 	}
 
 	data := struct {
-		Artist    Artist
+		Artist    zone.Artist
 		Relations map[string][]string
 		Locations []string
 		Dates     []string

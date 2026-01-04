@@ -44,34 +44,27 @@
 ## Project Structure
 
 ```
-.
-├── checkdata.txt
+├── fetchers
+│   ├── fetchArtist.go
+│   ├── fetchDates.go
+│   ├── fetchLocaltion.go
+│   ├── fetchRelations.go
+│   └── sub-func.go
 ├── go.mod
-├── handlers/
-│   ├── artist.go
-│   ├── date.go
-│   ├── Error.go
-│   ├── fetchaartist.go
-│   ├── fetchlocaltion.go
-│   ├── home.go
-│   ├── Relations.go
-│   ├── statichandler.go
-│   └── sub-func.go
+├── handlers
+│   ├── artistHandler.go
+│   ├── errorHandler.go
+│   ├── homeHandler.go
+│   └── staticHandler.go
 ├── main.go
 ├── README.md
-├── static/
-│   └── style.css
-└── templates/
+├── static
+│   └── style.css
+└── templates
     ├── artist.html
     ├── err.html
     └── index.html
 ```
-
-* `main.go` – the entry point that sets up the server and routes.
-* `handlers/` – contains Go files for HTTP handlers, API fetching, and page rendering.
-* `templates/` – HTML templates for the home page and artist detail pages.
-* `static/` – CSS files for styling the pages.
-
 ---
 
 ## API

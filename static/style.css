@@ -1,11 +1,7 @@
-/* ------------------------------------------- */
-/* Unified CSS for groupie-tracker pages      */
-/* Dark theme + neon text + framed titles     */
-/* ------------------------------------------- */
 
 body {
     margin: 0;
-    font-family: 'Poppins', sans-serif; /* clean modern font */
+    font-family: 'Poppins', sans-serif; 
     background-color: rgb(7, 15, 43);
     color: rgb(176, 255, 250);
     line-height: 1.6;
@@ -24,9 +20,9 @@ h1 {
     border-radius: 10px;
     background-color: rgba(27, 26, 85, 0.7);
 
-    display: block;          /* ✅ change this */
-    width: fit-content;      /* ✅ frame fits text */
-    margin: 1.5rem auto;     /* ✅ centers perfectly */
+    display: block;          
+    width: fit-content;      
+    margin: 1.5rem auto;     
 }
 
 

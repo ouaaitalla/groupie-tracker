@@ -9,9 +9,17 @@ import (
 var templates = template.Must(template.ParseGlob("templates/*.html"))
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		HandelError(w, 405, "Method Not Allowed")
+		return
+	}
+	if r.URL.Path != "/" {
+		HandelError(w, 404, "Page Not Found")
+		return
+	}
 	err := templates.ExecuteTemplate(w, "index.html", artists)
 	if err != nil {
-		http.Error(w, "Server error", http.StatusInternalServerError)
+		HandelError(w, 500, "internal server error")
 	}
 }
 
@@ -19,7 +27,7 @@ func artistHandler(w http.ResponseWriter, r *http.Request) {
 	idStr := r.URL.Query().Get("id")
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
-		http.NotFound(w, r)
+		HandelError(w,404, "page not found")
 		return
 	}
 

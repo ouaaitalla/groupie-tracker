@@ -1,35 +1,60 @@
+{{define "artist.html"}}
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
+    <meta charset="UTF-8">
     <title>{{.Artist.Name}}</title>
     <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
 
-<a href="/">⬅ Back</a>
+<a href="/" class="btn">Back</a>
 
-<h1>{{.Artist.Name}}</h1>
-<img src="{{.Artist.Image}}" width="300">
 
-<p><b>Created:</b> {{.Artist.CreationDate}}</p>
-<p><b>First Album:</b> {{.Artist.FirstAlbum}}</p>
+<div class="details-container">
 
-<h3>Members</h3>
-<ul>
-{{range .Artist.Members}}
-    <li>{{.}}</li>
-{{end}}
-</ul>
+    <div class="details-left">
+        <img src="{{.Artist.Image}}" class="details-img">
+        <h1>{{.Artist.Name}}</h1>
+    </div>
 
-<h3>Concerts</h3>
-{{range $place, $dates := .Relation.DatesLocations}}
-    <p><b>{{$place}}</b></p>
-    <ul>
-    {{range $dates}}
-        <li>{{.}}</li>
-    {{end}}
-    </ul>
-{{end}}
+    <div class="details-right">
+
+        <div class="box">
+            <h3>Creation Date</h3>
+            <p>{{.Artist.CreationDate}}</p>
+        </div>
+
+        <div class="box">
+            <h3>First Album</h3>
+            <p>{{.Artist.FirstAlbum}}</p>
+        </div>
+
+        <div class="box">
+            <h3>Members</h3>
+            <ul>
+                {{range .Artist.Members}}
+                <li>{{.}}</li>
+                {{end}}
+            </ul>
+        </div>
+
+        <div class="box">
+            <h3>Concert Dates & Locations</h3>
+            {{range $place, $dates := .Relation.DatesLocations}}
+                <p><strong>{{$place}}</strong></p>
+                <ul>
+                    {{range $dates}}
+                    <li>{{.}}</li>
+                    {{end}}
+                </ul>
+            {{end}}
+        </div>
+
+    </div>
+
+</div>
 
 </body>
 </html>
+{{end}}

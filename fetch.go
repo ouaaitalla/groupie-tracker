@@ -13,13 +13,12 @@ var (
 	relations []Relation
 )
 
-func fetchAPI(url string, target interface{}) {
+func fetchAPI(url string, target any) {
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer resp.Body.Close()
-
 	err = json.NewDecoder(resp.Body).Decode(target)
 	if err != nil {
 		log.Fatal(err)

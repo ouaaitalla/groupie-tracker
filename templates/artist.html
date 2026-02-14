@@ -42,7 +42,7 @@
         <div class="box">
             <h3>Concert Dates & Locations</h3>
             {{range $place, $dates := .Relation.DatesLocations}}
-                <p><strong>{{$place}}</strong></p>
+                <p><strong>📍{{$place}}</strong></p>
                 <ul>
                     {{range $dates}}
                     <li>{{.}}</li>

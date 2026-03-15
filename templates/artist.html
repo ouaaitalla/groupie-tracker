@@ -19,54 +19,68 @@
 
 <div class="artist-header">
 
-<img src="{{.Artist.Image}}">
+<img src="{{.Artist.Image}}" class="artist-img">
 
-<div>
+<div class="artist-title">
 
 <h1>{{.Artist.Name}}</h1>
 
 <p>First Album: {{.Artist.FirstAlbum}}</p>
 
-<p>Created: {{.Artist.CreationDate}}</p>
+<p>Creation Date: {{.Artist.CreationDate}}</p>
 
 </div>
 
 </div>
 
-<div class="artist-details">
+<div class="artist-grid">
 
-<div>
+<div class="info-card">
 
 <h2>Members</h2>
 
 <ul>
+
 {{range .Artist.Members}}
+
 <li>{{.}}</li>
+
 {{end}}
+
 </ul>
 
 </div>
 
-<div>
+
+<div class="info-card">
 
 <h2>Locations</h2>
 
 <ul>
+
 {{range .Locations}}
+
 <li>{{.}}</li>
+
 {{end}}
+
 </ul>
 
 </div>
 
-<div>
 
-<h2>Dates</h2>
+<div class="info-card">
+
+<h2>Concert Dates</h2>
 
 <ul>
+
 {{range .Dates}}
+
 <li>{{.}}</li>
+
 {{end}}
+
 </ul>
 
 </div>

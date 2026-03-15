@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="An error occurred. Return to the main page to continue browsing artists.">
-    <title>Error - Groupie Tracker</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="/static/style.css" rel="stylesheet">
+<meta charset="UTF-8">
+<title>Error</title>
+<link rel="stylesheet" href="/static/style.css">
 </head>
-<body class="error-page">
-    <main class="error-container" id="main-content">
-        <article class="error-card" role="alert" aria-labelledby="error-title">
-            <div class="error-icon" aria-hidden="true">!</div>
-            <h1 class="error-title" id="error-title">Something went wrong</h1>
-            <p class="error-message">{{.Message}}</p>
-            <a href="/" class="error-button">Back to Home</a>
-        </article>
-    </main>
+
+<body>
+
+<div class="error-container">
+
+<div class="error-card">
+
+<h1 class="error-code">{{.Status}}</h1>
+
+<p class="error-message">{{.Message}}</p>
+
+<a href="/" class="error-btn">Back to Home</a>
+
+</div>
+
+</div>
 
 </body>
+
 </html>

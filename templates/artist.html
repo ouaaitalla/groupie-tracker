@@ -1,138 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Explore {{.Artist.Name}}'s band details, concert locations, and tour dates">
-    <title>{{.Artist.Name}} - Groupie Tracker</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="/static/style.css" rel="stylesheet">
+<meta charset="UTF-8">
+<title>{{.Artist.Name}}</title>
+<link rel="stylesheet" href="/static/style.css">
 </head>
+
 <body>
-    <!-- Navigation Header -->
-    <header class="artist-header" role="banner">
-        <a href="/" class="back-button" aria-label="Return to artists list">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-            </svg>
-            <span>Back</span>
-        </a>
-    </header>
 
-    <!-- Artist Hero Section -->
-    <section class="artist-hero" aria-labelledby="artist-name">
-        <div class="hero-background" aria-hidden="true">
-            <img src="{{.Artist.Image}}" alt="" class="hero-bg-image">
-            <div class="hero-gradient"></div>
-        </div>
-        <div class="hero-content">
-            <figure class="hero-image-display">
-                <img src="{{.Artist.Image}}" alt="{{.Artist.Name}}" class="artist-image-featured">
-            </figure>
-            <article class="hero-text-content">
-                <p class="hero-label" aria-label="Artist type">Artist</p>
-                <h1 class="hero-title" id="artist-name">{{.Artist.Name}}</h1>
-                <time class="hero-info" datetime="{{.Artist.CreationDate}}">
-                    Created {{.Artist.CreationDate}}
-                </time>
-            </article>
-        </div>
-    </section>
+<header class="navbar">
 
-    <!-- Main Content -->
-    <main class="artist-main" id="main-content" tabindex="-1">
-        <div class="artist-container">
-            <!-- Overview Cards Section -->
-            <section class="info-section" aria-labelledby="overview-title">
-                <h2 id="overview-title" class="visually-hidden">Artist Overview</h2>
-                <div class="info-grid" role="list">
-                    <article class="info-card" role="listitem">
-                        <h3 class="info-title">First Album</h3>
-                        <p class="info-text">{{.Artist.FirstAlbum}}</p>
-                    </article>
-                    <article class="info-card" role="listitem">
-                        <h3 class="info-title">Band Members</h3>
-                        <p class="info-count" aria-label="Total members">{{len .Artist.Members}}</p>
-                    </article>
-                    <article class="info-card" role="listitem">
-                        <h3 class="info-title">Concert Locations</h3>
-                        <p class="info-count" aria-label="Total cities">{{len .Locations}}</p>
-                    </article>
-                    <article class="info-card" role="listitem">
-                        <h3 class="info-title">Tour Dates</h3>
-                        <p class="info-count" aria-label="Total dates">{{len .Dates}}</p>
-                    </article>
-                </div>
-            </section>
+<a href="/" class="back">← Back</a>
 
-            <!-- Band Members Section -->
-            <section class="content-section" aria-labelledby="members-title">
-                <h2 class="section-title" id="members-title">Band Members</h2>
-                <ul class="members-list" role="list">
-                    {{range .Artist.Members}}
-                    <li class="member-item" role="listitem">{{.}}</li>
-                    {{end}}
-                </ul>
-            </section>
+</header>
 
-            <!-- Concert Locations Section -->
-            <section class="content-section" aria-labelledby="locations-title">
-                <h2 class="section-title" id="locations-title">Concert Locations</h2>
-                <div class="locations-list" role="list" aria-label="Concert locations">
-                    {{range .Locations}}
-                    <div class="location-item" role="listitem">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                        </svg>
-                        <span>{{.}}</span>
-                    </div>
-                    {{end}}
-                </div>
-            </section>
+<section class="artist-page">
 
-            <!-- Concert Dates Section -->
-            <section class="content-section" aria-labelledby="dates-title">
-                <h2 class="section-title" id="dates-title">Concert Dates</h2>
-                <div class="dates-list" role="list" aria-label="Concert dates">
-                    {{range .Dates}}
-                    <div class="date-item" role="listitem">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                            <line x1="16" y1="2" x2="16" y2="6"></line>
-                            <line x1="8" y1="2" x2="8" y2="6"></line>
-                            <line x1="3" y1="10" x2="21" y2="10"></line>
-                        </svg>
-                        <time datetime="{{.}}">{{.}}</time>
-                    </div>
-                    {{end}}
-                </div>
-            </section>
+<div class="artist-header">
 
-            <!-- Concert Schedule / Relations Section -->
-            <section class="content-section" aria-labelledby="schedule-title">
-                <h2 class="section-title" id="schedule-title">Tour Schedule by Location</h2>
-                <div class="schedule-grid" role="list" aria-label="Tour schedule">
-                    {{range $place, $dates := .Relations}}
-                    <article class="schedule-card" role="listitem">
-                        <h3 class="schedule-location">{{$place}}</h3>
-                        <div class="schedule-dates" role="list" aria-label="Dates in {{$place}}">
-                            {{range $dates}}
-                            <span class="date-badge" role="listitem">
-                                <time datetime="{{.}}">{{.}}</time>
-                            </span>
-                            {{end}}
-                        </div>
-                    </article>
-                    {{end}}
-                </div>
-            </section>
-        </div>
-    </main>
+<img src="{{.Artist.Image}}">
 
-    <!-- Footer -->
-    <footer class="main-footer" role="contentinfo">
-        <p>&copy;  2026 Groupie Tracker. powred by ouaaitalla & achent</p>
-    </footer>
+<div>
+
+<h1>{{.Artist.Name}}</h1>
+
+<p>First Album: {{.Artist.FirstAlbum}}</p>
+
+<p>Created: {{.Artist.CreationDate}}</p>
+
+</div>
+
+</div>
+
+<div class="artist-details">
+
+<div>
+
+<h2>Members</h2>
+
+<ul>
+{{range .Artist.Members}}
+<li>{{.}}</li>
+{{end}}
+</ul>
+
+</div>
+
+<div>
+
+<h2>Locations</h2>
+
+<ul>
+{{range .Locations}}
+<li>{{.}}</li>
+{{end}}
+</ul>
+
+</div>
+
+<div>
+
+<h2>Dates</h2>
+
+<ul>
+{{range .Dates}}
+<li>{{.}}</li>
+{{end}}
+</ul>
+
+</div>
+
+</div>
+
+</section>
+
 </body>
 </html>
